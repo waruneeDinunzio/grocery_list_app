@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import groceries from './data.js';
 import GroceryList from './GroceryList.js';
+import './App.css';
 //console.log(groceries)
 class App extends Component {
   state = {
@@ -46,19 +47,19 @@ class App extends Component {
     console.log(event.target.parentElement)
   }
   togglePurchased = (event) => {
-    console.log(event.target.id)
     this.setState({
-      [event.target.id]: !this.isPurchased
+      [event.target.id]: !this.state.isPurchased
+      //[event.target.parentElement.style.textDecoration]: 'line-through'
     })
     console.log(this.state.isPurchased)
   }
 
   render() {
     return (
-      <div>
+      <div className="mainDiv">
         <h1>Grocery List</h1>
         <h2>ADD:List</h2>
-        {console.log(this.state.products)}
+        {/*console.log(this.state.products)*/}
         <form onSubmit={this.handleSubmit}>
         <label htmlFor="item">Item: </label>
           <input type="text" value={this.state.item} onChange={this.handleChange} id="item" />
@@ -92,7 +93,7 @@ class App extends Component {
               );
             })}
           </ul>
-          <h5>Click box to delete when you Purchased</h5>
+          <h5>Click to delete when you Purchased</h5>
         </div>
       </div>
     );
