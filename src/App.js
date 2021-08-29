@@ -11,16 +11,48 @@ class App extends Component {
     brand: '',
     units: '',
     quantity: 0,
-    isPurchased: false
+    isPurchased: false,
+    groceryList: []
 	};
-  
+
+  // create handleChange function to add the item when user fill out the form
+  handleChange = (event) => {
+    this.setState({
+      [event.target.id]: event.target.value
+    });
+  };
+
+  // create handleSubmit to submit new item
+  handleSubmit = (event) => {
+    event.preventDefault()
+    const newItem = {
+      item: this.state.item,
+      brand: this.state.brand,
+      units: this.state.units,
+      quantity: this.state.quantity,
+      isPurchased: false
+    }
+    this.setState({
+      item: '',
+      brand: '',
+      units: '',
+      quantity: 0,
+      isPurchased: false,
+      products: [newItem, ...this.state.products]
+    })
+  }
+  handleCheckbox = (event) => {
+    event.target.parentElement.style.display = 'none'
+    console.log(event.target.parentElement)
+  }
+
   render() {
     return (
       <div>
         <h1>Grocery List</h1>
         <h2>ADD:List</h2>
         {console.log(this.state.products)}
-        <form>
+        <form onSubmit={this.handleSubmit}>
         <label htmlFor="item">Item: </label>
           <input type="text" value={this.state.item} onChange={this.handleChange} id="item" />
           <br />
@@ -36,24 +68,24 @@ class App extends Component {
           <input type="submit" />
         </form>
         <div className="preview">
-          <h2>Preview our new item</h2>
-          <h5>{this.state.item}</h5>
-          <h5>{this.state.brand}</h5>
-          <h5>{this.state.units}</h5>
-          <h5>{this.state.quantity}</h5>
+          <h2>Preview new item you want to add:</h2>
+          <h5>Item: {this.state.item}</h5>
+          <h5>Brand: {this.state.brand}</h5>
+          <h5>Units: {this.state.units}</h5>
+          <h5>Quantity: {this.state.quantity}</h5>
         </div>
-        <ul>
-        {this.state.products.map((product, index) => {
-						return (
-              //<li>
-                 //{product.item}
-              //</li>
-              <GroceryList key={index} product={product} />
-						);
-					})}
-        </ul>
+        <div>
+          <h2>This is your Grocery List:</h2>
+          <ul>
+          {this.state.products.map((product, index) => {
+              return (
+                <GroceryList key={index} product={product} action={this.handleCheckbox}/>
+              );
+            })}
+          </ul>
+          <h5>Click box to delete when you Purchased</h5>
+        </div>
       </div>
-      
     );
   }
 }
