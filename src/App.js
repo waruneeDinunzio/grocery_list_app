@@ -41,9 +41,16 @@ class App extends Component {
       products: [newItem, ...this.state.products]
     })
   }
-  handleCheckbox = (event) => {
+  handleClickDelete = (event) => {
     event.target.parentElement.style.display = 'none'
     console.log(event.target.parentElement)
+  }
+  togglePurchased = (event) => {
+    console.log(event.target.id)
+    this.setState({
+      [event.target.id]: !this.isPurchased
+    })
+    console.log(this.state.isPurchased)
   }
 
   render() {
@@ -63,7 +70,9 @@ class App extends Component {
           <input type="text" value={this.state.units} onChange={this.handleChange} id="units" />
           <br />
           <label htmlFor="quantity">Guantity: </label>
-          <input type="text" value={this.state.quantity} onChange={this.handleChange} id="quantity"/>
+          <input type="text" value={this.state.quantity}
+          onClick={() => this.setState({quantity: ''})} 
+          onChange={this.handleChange} id="quantity"/>
           <br />
           <input type="submit" />
         </form>
@@ -79,7 +88,7 @@ class App extends Component {
           <ul>
           {this.state.products.map((product, index) => {
               return (
-                <GroceryList key={index} product={product} action={this.handleCheckbox}/>
+                <GroceryList key={index} product={product} action={this.handleClickDelete} toggle={this.togglePurchased}/>
               );
             })}
           </ul>
